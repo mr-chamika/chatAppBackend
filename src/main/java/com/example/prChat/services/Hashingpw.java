@@ -20,6 +20,7 @@ public class Hashingpw {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(
+                                "/otp/**",
                                 "/user/**",
                                 "/message/**",
                                 "/chat/**"
@@ -30,7 +31,6 @@ public class Hashingpw {
                 )
 
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .cors(withDefaults()) // Apply the global CORS configuration
                 .csrf(csrf -> csrf.disable()) // Disable CSRF, common for stateless APIs
                 .formLogin(form -> form.disable())
                 .httpBasic(basic->basic.disable()) ;// Use Basic Auth for the secured endpoints
