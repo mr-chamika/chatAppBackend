@@ -19,12 +19,12 @@ public class ChatController {
     private ChatRepo chatRepo;
 
     @GetMapping("/create")
-public String create(@RequestParam String inviteTo, @RequestParam String scan) {
+public String create(@RequestParam String inviteTo, @RequestParam String scan, @RequestParam String userName) {
 
         Chat x = new Chat();
 
         x.setParticipants(new String[]{inviteTo, scan});
-        x.setUserName(inviteTo+" user");
+        x.setUserName(userName);
 
         chatRepo.save(x);
 
@@ -63,6 +63,15 @@ public ResponseEntity<?> getChatList(@RequestParam String id) {
 
         return ResponseEntity.badRequest().body("Chat not found");
 
+    }
+
+    @PostMapping("/creates")
+    public ResponseEntity<String> createChat(@RequestBody Chat chat) {
+        // Your backend receives the JSON object and saves it to MongoDB
+        chatRepo.save(chat);
+
+        // Return the ID of the newly created chat with a 200 OK status
+        return ResponseEntity.ok(chat.get_id());
     }
 
 }
