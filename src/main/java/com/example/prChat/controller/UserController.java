@@ -102,4 +102,41 @@ public ResponseEntity<?> getUserById(@RequestParam String id) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorBody);
     }
 }
+
+    @PutMapping("/update")
+public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> payload) {
+    String id = (String) payload.get("id");
+    String firstName = (String) payload.get("firstName");
+    String lastName = (String) payload.get("lastName");
+    String profilePic = (String) payload.get("avatarUri");
+
+    Optional<User> userOpt = repo.findById(id);
+    if (userOpt.isPresent()) {
+        User user = userOpt.get();
+        boolean changed = false;
+
+        if (firstName != null && !firstName.equals(user.getFirstName())) {
+            user.setFirstName(firstName);
+            changed = true;
+        }
+        if (lastName != null && !lastName.equals(user.getLastName())) {
+            user.setLastName(lastName);
+            changed = true;
+        }
+        if (profilePic != null && !profilePic.equals(user.getProfilePic())) {
+            user.setProfilePic(profilePic);
+            changed = true;
+        }
+
+        if (changed) {
+            repo.save(user);
+            return ResponseEntity.ok("Profile updated successfully");
+        } else {
+            return ResponseEntity.ok("No changes detected");
+        }
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    }
+}
+    
 }
