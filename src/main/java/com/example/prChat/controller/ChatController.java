@@ -23,7 +23,7 @@ public String create(@RequestParam String inviteTo, @RequestParam String scan, @
 
         Chat x = new Chat();
 
-        x.setParticipants(new String[]{inviteTo, scan});
+        x.setParticipants(new String[]{scan,inviteTo});
         x.setUserName(userName);
 
         chatRepo.save(x);
