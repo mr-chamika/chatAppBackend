@@ -84,4 +84,22 @@ public class UserController {
 
 
     }
+
+    @GetMapping("/get")
+public ResponseEntity<?> getUserById(@RequestParam String id) {
+    Optional<User> userOpt = repo.findById(id);
+    if (userOpt.isPresent()) {
+        User user = userOpt.get();
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("_id", user.get_id());
+        responseBody.put("name", user.getFirstName() + " " + user.getLastName());
+        responseBody.put("email", user.getEmail());
+        responseBody.put("profilePic", user.getProfilePic());
+        return ResponseEntity.ok(responseBody);
+    } else {
+        Map<String, String> errorBody = new HashMap<>();
+        errorBody.put("error", "User not found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorBody);
+    }
+}
 }
