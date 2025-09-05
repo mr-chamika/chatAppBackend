@@ -52,9 +52,9 @@ public class OTPController {
 
         // Request payload
         Map<String, Object> payload = new HashMap<>();
-        payload.put("service_id", "service_h0e38l2");
-        payload.put("template_id", "template_crl1nc9");
-        payload.put("user_id", "Xav8YamG7K9e8q0nD"); // OR use private key if required
+        payload.put("service_id", "service_40k3ymf");
+        payload.put("template_id", "template_m0e810u");
+        payload.put("user_id", "ZScUXbWHpMEUHDihx"); // OR use private key if required
 
         // Template params (must match EmailJS template variables)
         Map<String, String> templateParams = new HashMap<>();
