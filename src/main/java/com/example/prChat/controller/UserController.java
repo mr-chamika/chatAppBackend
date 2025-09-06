@@ -156,7 +156,7 @@ public ResponseEntity<?> updateUserEmail(@RequestBody Map<String, Object> payloa
 
         // Check if new email already exists for another user
         Optional<User> emailUser = repo.findByEmail(newEmail);
-        if (emailUser.isPresent() && !emailUser.get().getId().equals(id)) {
+        if (emailUser.isPresent() && !emailUser.get().get_id().equals(id)) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
         }
 
