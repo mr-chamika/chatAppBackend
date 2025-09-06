@@ -138,5 +138,35 @@ public ResponseEntity<?> updateUser(@RequestBody Map<String, Object> payload) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
     }
 }
+
+   @PutMapping("/email")
+public ResponseEntity<?> updateUserEmail(@RequestBody Map<String, Object> payload) {
+    String id = (String) payload.get("id");
+    String oldEmail = (String) payload.get("x");
+    String newEmail = (String) payload.get("email");
+
+    Optional<User> userOpt = repo.findById(id);
+    if (userOpt.isPresent()) {
+        User user = userOpt.get();
+
+        // Check if new email is same as old
+        if (newEmail == null || newEmail.equals(oldEmail)) {
+            return ResponseEntity.ok("No changes detected");
+        }
+
+        // Check if new email already exists for another user
+        Optional<User> emailUser = repo.findByEmail(newEmail);
+        if (emailUser.isPresent() && !emailUser.get().getId().equals(id)) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
+
+        // Update email
+        user.setEmail(newEmail);
+        repo.save(user);
+        return ResponseEntity.ok("Email updated successfully");
+    } else {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+    }
+}
     
 }
